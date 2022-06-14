@@ -13,6 +13,7 @@ import com.esprit.tunify.model.CartItem
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cart_row.view.*
 
+
 class CartAdapter(var context: Context, var cartItems: List<CartItem>) :
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
@@ -32,15 +33,39 @@ class CartAdapter(var context: Context, var cartItems: List<CartItem>) :
         viewHolder.bindItem(cartItems[position])
 
         val button = viewHolder.itemView.findViewById<ImageButton>(R.id.deleteProductButton)
+        val mb = viewHolder.itemView.findViewById<ImageButton>(R.id.minusButton)
+        val pb = viewHolder.itemView.findViewById<ImageButton>(R.id.plusButton)
         val product = cartItems[position]
 
+
+        pb.setOnClickListener {
+            val item = CartItem(product.product)
+            CartFragment.addItem(item)
+            notifyItemChanged(viewHolder.absoluteAdapterPosition)
+        }
+
+        mb.setOnClickListener {
+            val cart = CartFragment.getCart()
+            val item = CartItem(product.product)
+
+            val targetItem = cart.singleOrNull { it.product._id == item.product._id }
+            if (targetItem != null) {
+                if (targetItem.quantity > 0) {
+                    targetItem.quantity--
+                } else {
+                    cart.remove(targetItem)
+                }
+            }
+
+            CartFragment.saveCart(cart)
+            notifyItemChanged(viewHolder.absoluteAdapterPosition)
+        }
 
         button.setOnClickListener {
             val item = CartItem(product.product)
             CartFragment.removeItem(item, context)
             Toast.makeText(viewHolder.itemView.context, "product "+item.product.name+" deleted from cart", Toast.LENGTH_SHORT).show()
             notifyItemRemoved(viewHolder.absoluteAdapterPosition)
-
 
         }
 

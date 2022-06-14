@@ -10,15 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.esprit.tunify.LoginActivity.Constants.SHARED_PREF_SESSION
 import com.esprit.tunify.adapter.CartAdapter
 import com.esprit.tunify.model.*
 import com.esprit.tunify.network.ApiService
 import com.esprit.tunify.network.OrderService
-import com.esprit.tunify.network.UserService
 import com.google.gson.Gson
 import io.paperdb.Paper
 import retrofit2.Call
@@ -27,6 +25,7 @@ import retrofit2.Response
 import java.util.*
 
 class CartFragment : Fragment() {
+
     object Constants {
         const val SHARED_PREF_SESSION = "SESSION"
     }
@@ -40,91 +39,100 @@ class CartFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_cart, container, false)
 
+        var totall = 0.0
+        val cart = getCart()
+
+
+        cart.forEachIndexed { index, cartItem ->
+            cartItem.totalPrice = cartItem.quantity * cartItem.product.price
+            totall += cartItem.totalPrice
+        }
+
+        val tvTotal = view.findViewById<TextView>(R.id.orderTotalTextView)
+        tvTotal.text = totall.toString()
+
         val cB = view.findViewById<Button>(R.id.checkoutButton)
         cB.setOnClickListener {
-            val cart = getCart()
+            //val cart = getCart()
             val items: MutableList<items> = arrayListOf()
-            val order : Order =Order("",User("","","","","","",""), items,0.0,"",Date())
-            var total=0.0
-            val sp : SharedPreferences = requireActivity().getSharedPreferences(Constants.SHARED_PREF_SESSION,MODE_PRIVATE)
-            val user = sp.getString("USER_DATA",null)
+            val order: Order = Order("", User("", "", "", "", "", "", ""), items, 0.0, "", Date())
+            var total = 0.0
+            val sp: SharedPreferences = requireActivity().getSharedPreferences(Constants.SHARED_PREF_SESSION, MODE_PRIVATE)
+            val user = sp.getString("USER_DATA", null)
             val sessionUser: User = Gson().fromJson(user, User::class.java)
-            Log.d("User", "=" +sessionUser)
+            Log.d("User", "=" + sessionUser)
 
 
             cart.forEachIndexed { index, cartItem ->
 
-                val item: items = items("",0, 0.0,0.0)
+                val item: items = items("", 0, 0.0, 0.0)
 
-                    item.productId = cartItem.product._id
-                    item.price = cartItem.product.price
-                    item.total = cartItem.quantity * cartItem.product.price
-                    item.quantity = cartItem.quantity
-                    items.add(item)
-                    Log.d("success", "item"+item)
-                    Log.d("success", "cartitem"+cartItem)
+                item.productId = cartItem.product._id
+                item.price = cartItem.product.price
+                item.total = cartItem.quantity * cartItem.product.price
+                item.quantity = cartItem.quantity
+                items.add(item)
+                Log.d("success", "item" + item)
+                Log.d("success", "cartitem" + cartItem)
 
-                    total=total+item.total
-
-
-
-        }
-            Log.d("success", "listitem"+items)
-           /* order.items=items
-            order.address="address"
-            order.totalCost=total
-            order.createdAt=Date()
-            order.user=sessionUser*/
-            val orderr = OrderService.OrderBody(sessionUser,items,total,"address",Date())
-            Log.d("Order", "= "+order)
+                total += item.total
+            }
+            Log.d("success", "listitem" + items)
+            /* order.items=items
+             order.address="address"
+             order.totalCost=total
+             order.createdAt=Date()
+             order.user=sessionUser*/
+            val orderr = OrderService.OrderBody(sessionUser, items, total, "address", Date())
+            Log.d("Order", "= " + order)
             addOrder(orderr)
 
+            cart.clear()
+            saveCart(cart)
         }
 
         initAdapter(view)
         return view
     }
-private  fun addOrder(order:OrderService.OrderBody){
 
-    Log.d("From Fun", "Order= "+order)
-    ApiService.orderService.addOrder(order).enqueue(
-        object : Callback<Order> {
-            override fun onResponse(
-                call: Call<Order>,
-                response: Response<Order>
-            ) {
-                if (response.code() == 200) {
-                    Log.d("success", "order added")
 
-                    Log.d("Result", "=: "+response.body())
+    private fun addOrder(order: OrderService.OrderBody) {
+
+        Log.d("From Fun", "Order= " + order)
+        ApiService.orderService.addOrder(order).enqueue(
+            object : Callback<Order> {
+                override fun onResponse(
+                    call: Call<Order>,
+                    response: Response<Order>
+                ) {
+                    if (response.code() == 200) {
+                        Log.d("success", "order added")
+
+                        Log.d("Result", "=: " + response.body())
+                    } else {
+                        Log.d("Error", ":" + response.code())
+                    }
+
                 }
-                else {
-                    Log.d("Error", ":"+ response.code())
-                    Log.d("Result", "=: "+call.toString())
+
+                override fun onFailure(
+                    call: Call<Order>,
+                    t: Throwable
+                ) {
+                    Log.d("FAIL", "fail")
                 }
+
 
             }
+        )
+    }
 
-            override fun onFailure(
-                call: Call<Order>,
-                t: Throwable
-            ) {
-                Log.d("FAIL", "fail")
-            }
-
-
-        }
-    )
-}
-    private fun initAdapter(view : View) {
+    private fun initAdapter(view: View) {
         val cRecyclerView = view.findViewById<RecyclerView>(R.id.cartRecyclerView)
         cartAdapter = CartAdapter(requireActivity().applicationContext, getCart())
-        cartAdapter.notifyDataSetChanged()
-
         cRecyclerView.adapter = cartAdapter
-
         cRecyclerView.layoutManager = LinearLayoutManager(requireActivity().applicationContext)
-
+        cartAdapter.notifyDataSetChanged()
     }
 
 
@@ -147,8 +155,7 @@ private  fun addOrder(order:OrderService.OrderBody){
             val cart = getCart()
 
             val targetItem = cart.singleOrNull { it.product._id == cartItem.product._id }
-            if (targetItem != null)
-            {
+            if (targetItem != null) {
                 cart.remove(targetItem)
             }
 
@@ -165,8 +172,8 @@ private  fun addOrder(order:OrderService.OrderBody){
 
         fun getShoppingCartSize(): Int {
             var cartSize = 0
-                getCart().forEach {
-                cartSize += it.quantity;
+            getCart().forEach {
+                cartSize += it.quantity
             }
 
             return cartSize

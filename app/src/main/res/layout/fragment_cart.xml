@@ -5,12 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/off_white"
+    android:padding="16dp"
     tools:context=".CartFragment" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/myCartTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppinsbold"
+            android:text="@string/my_cart"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="48sp"
+            android:layout_gravity="center"
+            android:textAlignment="center"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cartRecyclerView"

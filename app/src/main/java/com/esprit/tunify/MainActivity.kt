@@ -1,6 +1,7 @@
 package com.esprit.tunify
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -9,6 +10,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.esprit.tunify.databinding.ActivityMainBinding
+import com.esprit.tunify.model.User
+import com.google.gson.Gson
 import io.paperdb.Paper
 
 class MainActivity : AppCompatActivity() {
@@ -42,9 +45,19 @@ class MainActivity : AppCompatActivity() {
                         setupProductsFragment()
                     }
                     R.id.profile -> {
-                        val intent = Intent(this@MainActivity, ProfileActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        val sp: SharedPreferences = getSharedPreferences(LoginActivity.Constants.SHARED_PREF_SESSION, MODE_PRIVATE)
+                        val user = sp.getString("USER_DATA", null)
+                        val sessionUser: User? = Gson().fromJson(user, User::class.java)
+
+                        if (sessionUser == null) {
+                            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            val intent = Intent(this@MainActivity, ProfileActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
                     }
                     R.id.cart -> {
                         setupCartFragment()

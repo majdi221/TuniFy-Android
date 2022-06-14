@@ -3,31 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="150dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorSecondary">
+    android:background="@color/off_white">
 
-    <TextView
-        android:id="@+id/firstname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/first_name"
-        app:layout_constraintTop_toTopOf="parent"
+    <ImageView
+        android:id="@+id/tunifyLogo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/logo1"
+        android:contentDescription="@string/splash_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/black"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="50dp"
-        android:textSize="32sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/lastname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/last_name"
-        app:layout_constraintTop_toBottomOf="@+id/firstname"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/black"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="10dp"
-        android:textSize="28sp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

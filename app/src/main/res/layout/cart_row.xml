@@ -38,17 +38,38 @@
         app:layout_constraintStart_toStartOf="@+id/productNameTextView"
         app:layout_constraintTop_toBottomOf="@+id/productNameTextView" />
 
+    <ImageButton
+        android:id="@+id/minusButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_minus"
+        android:backgroundTint="@color/off_white"
+        android:contentDescription="@string/minus"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/productNameTextView"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <TextView
         android:id="@+id/quantitySpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:text="@string/qty"
         android:entries="@array/quantity_string_array"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/minusButton"
+        app:layout_constraintTop_toBottomOf="@+id/productNameTextView"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/plusButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_plus"
+        android:backgroundTint="@color/off_white"
+        android:contentDescription="@string/plus"
+        app:layout_constraintStart_toEndOf="@+id/quantitySpinner"
+        app:layout_constraintTop_toBottomOf="@+id/productNameTextView"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     <ImageButton

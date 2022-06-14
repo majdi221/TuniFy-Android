@@ -5,16 +5,19 @@ import com.esprit.tunify.model.Order
 import com.esprit.tunify.model.User
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 import java.util.*
 
 interface OrderService {
+
+
     data class OrderResponse(
         @SerializedName("order")
-        val order: Order
+        val order: List<Order>
+    )
+
+    data class OrdersBody(
+        val user: String
     )
 
 
@@ -25,8 +28,12 @@ interface OrderService {
         var address: String,
         var createdAt: Date
     )
-    @GET("api/order/myorders")
-    fun getOrders(@Body user: User): Call<Order>
+
+    @Headers("Content-Type: application/json")
+    @POST("api/order/myorders")
+    fun getOrders(@Body ordersBody: OrdersBody ): Call<OrderResponse>
+
+
 
     @Headers("Content-Type: application/json")
     @POST("api/order/addorder")

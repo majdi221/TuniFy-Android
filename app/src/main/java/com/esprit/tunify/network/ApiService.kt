@@ -21,9 +21,6 @@ object ApiService {
     val orderService: OrderService by lazy {
         retrofit().create(OrderService::class.java)
     }
-    val productService: ProductService by lazy {
-        retrofit().create(ProductService::class.java)
-    }
 
 
 }

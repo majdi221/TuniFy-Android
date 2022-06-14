@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import com.esprit.tunify.network.ApiService
 import com.esprit.tunify.network.UserService
@@ -21,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
     object Constants {
         const val SHARED_PREF_SESSION = "SESSION"
     }
-
+    private var signUpText: TextView? = null
     private var username: TextInputEditText? = null
     private var password: TextInputEditText? = null
     private var buttonLogin: Button? = null
@@ -31,12 +32,19 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        signUpText = findViewById(R.id.signUpText)
         username = findViewById(R.id.username)
         password = findViewById(R.id.password)
         buttonLogin = findViewById(R.id.buttonLogin)
 
         buttonLogin!!.setOnClickListener {
             login()
+        }
+
+        signUpText!!.setOnClickListener {
+            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
 
