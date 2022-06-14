@@ -50,6 +50,7 @@ class OrderFragment : Fragment() {
                         Log.d("success", "orders printed " + response.body())
                         orders = response.body()?.order as MutableList<Order>
                         println(response.body())
+                        initAdapter(view)
                     } else {
                         Log.d("response", "error code is = " + response.code())
                     }
@@ -67,7 +68,7 @@ class OrderFragment : Fragment() {
 
 
 
-        initAdapter(view)
+        //initAdapter(view)
         return view
     }
 

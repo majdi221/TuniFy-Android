@@ -88,7 +88,7 @@ class ProductListFragment : Fragment() {
 
     private fun onItemClick(position: Int) {
 
-        Toast.makeText(activity, items.elementAt(position).name, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity, items.elementAt(position).name, Toast.LENGTH_SHORT).show()
     }
 
 

@@ -17,12 +17,12 @@ interface OrderService {
     )
 
     data class OrdersBody(
-        val user: String
+        val _id: String
     )
 
 
     data class OrderBody (
-        var user: User,
+        var user: String,
         var items: MutableList<items>,
         var totalCost: Double,
         var address: String,

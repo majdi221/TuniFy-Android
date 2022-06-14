@@ -1,6 +1,7 @@
 package com.esprit.tunify.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +27,7 @@ class OrdersAdapter (var context: Context, var orders: List<Order>) :
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bindItem(order: Order) {
-
+            println("Order from adapter = "+order)
             // This displays the cart item information for each item
             itemView.orderId.text = order._id
             itemView.totalAmount.text = order.totalCost.toString()

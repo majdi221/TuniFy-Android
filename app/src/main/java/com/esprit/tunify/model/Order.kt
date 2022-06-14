@@ -4,7 +4,7 @@ import java.util.*
 
 data class Order (
     var _id: String,
-    var user: User,
+    var user: String,
     var items: List<items>,
     var totalCost: Double,
     var address: String,

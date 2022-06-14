@@ -55,7 +55,7 @@ class CartFragment : Fragment() {
         cB.setOnClickListener {
             //val cart = getCart()
             val items: MutableList<items> = arrayListOf()
-            val order: Order = Order("", User("", "", "", "", "", "", ""), items, 0.0, "", Date())
+            val order: Order = Order("", "", items, 0.0, "", Date())
             var total = 0.0
             val sp: SharedPreferences = requireActivity().getSharedPreferences(Constants.SHARED_PREF_SESSION, MODE_PRIVATE)
             val user = sp.getString("USER_DATA", null)
@@ -83,7 +83,7 @@ class CartFragment : Fragment() {
              order.totalCost=total
              order.createdAt=Date()
              order.user=sessionUser*/
-            val orderr = OrderService.OrderBody(sessionUser, items, total, "address", Date())
+            val orderr = OrderService.OrderBody(sessionUser._id, items, total, "address", Date())
             Log.d("Order", "= " + order)
             addOrder(orderr)
 
