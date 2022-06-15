@@ -1,17 +1,17 @@
 package com.esprit.tunify.network
 
+import com.esprit.tunify.utils.Consts.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetroInstance {
 
     companion object{
-        private const val BaseURL = "http://10.0.2.2:3000/"
 
         fun getRetroInstance():Retrofit{
 
             return Retrofit.Builder()
-                .baseUrl(BaseURL)
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 

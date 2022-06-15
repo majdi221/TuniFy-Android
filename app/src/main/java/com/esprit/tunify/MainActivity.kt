@@ -63,12 +63,18 @@ class MainActivity : AppCompatActivity() {
                         setupCartFragment()
                     }
                     R.id.orders -> {
-                        setupOrderFragment()
+                        val sp: SharedPreferences = getSharedPreferences(LoginActivity.Constants.SHARED_PREF_SESSION, MODE_PRIVATE)
+                        val user = sp.getString("USER_DATA", null)
+                        val sessionUser: User? = Gson().fromJson(user, User::class.java)
+
+                        if (sessionUser != null) {
+                            setupOrderFragment()
+                        } else {
+                            Toast.makeText(this@MainActivity, "You need to sign in first", Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
-                    R.id.settings -> {
-                        Toast.makeText(this@MainActivity, "Settings clicked", Toast.LENGTH_SHORT)
-                            .show()
-                    }
+
                 }
                 true
             }

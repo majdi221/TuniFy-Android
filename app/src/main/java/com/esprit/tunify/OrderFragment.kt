@@ -38,7 +38,6 @@ class OrderFragment : Fragment() {
         val sessionUser: User? = Gson().fromJson(user, User::class.java)
 
 
-
         ApiService.orderService.getOrders(OrderService.OrdersBody(sessionUser!!._id)).enqueue(
             object : Callback<OrderService.OrderResponse> {
 

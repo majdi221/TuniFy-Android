@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import com.esprit.tunify.network.ApiService
 import com.esprit.tunify.network.UserService
 import com.google.android.material.textfield.TextInputEditText
@@ -22,6 +23,7 @@ class SignUpActivity : AppCompatActivity() {
     private var phone: TextInputEditText? = null
     private var buttonSignUp: Button? = null
     private var loginButton: Button? = null
+    private var skip2: TextView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +38,14 @@ class SignUpActivity : AppCompatActivity() {
         phone = findViewById(R.id.phone)
         buttonSignUp = findViewById(R.id.buttonSignUp)
         loginButton = findViewById(R.id.loginButton)
+        skip2 = findViewById(R.id.skip2)
+
+        skip2!!.setOnClickListener {
+            val intent = Intent(this@SignUpActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
 
         buttonSignUp!!.setOnClickListener {
             ApiService.userService.register(

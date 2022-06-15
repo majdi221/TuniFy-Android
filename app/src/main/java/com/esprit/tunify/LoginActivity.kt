@@ -26,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
     private var username: TextInputEditText? = null
     private var password: TextInputEditText? = null
     private var buttonLogin: Button? = null
+    private var skip: TextView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +37,14 @@ class LoginActivity : AppCompatActivity() {
         username = findViewById(R.id.username)
         password = findViewById(R.id.password)
         buttonLogin = findViewById(R.id.buttonLogin)
+        skip = findViewById(R.id.skip)
+
+
+        skip!!.setOnClickListener {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         buttonLogin!!.setOnClickListener {
             login()

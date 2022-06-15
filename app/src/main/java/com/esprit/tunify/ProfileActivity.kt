@@ -24,6 +24,9 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "My Profile"
+
         val sp: SharedPreferences = getSharedPreferences(LoginActivity.Constants.SHARED_PREF_SESSION, MODE_PRIVATE)
         val user = sp.getString("USER_DATA", null)
         val sessionUser: User? = Gson().fromJson(user, User::class.java)
@@ -53,8 +56,11 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        /*buttonEditProfile!!.setOnClickListener {
-            //todo
-        }*/
+        buttonEditProfile!!.setOnClickListener {
+            val intent = Intent(this@ProfileActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
+
 }
