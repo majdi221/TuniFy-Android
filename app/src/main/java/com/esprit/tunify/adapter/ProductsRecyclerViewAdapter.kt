@@ -1,5 +1,6 @@
 package com.esprit.tunify.adapter
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.esprit.tunify.CartFragment
+import com.esprit.tunify.ProductDetailsActivity
 import com.esprit.tunify.R
 import com.esprit.tunify.model.CartItem
 import com.esprit.tunify.model.Product
@@ -55,7 +57,17 @@ class ProductsRecyclerViewAdapter(private val onItemClick: (position: Int) -> Un
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.product_list_row, parent, false)
-        return MyViewHolder(view, onItemClick)
+        val holderr = MyViewHolder(view, onItemClick)
+        view.setOnClickListener {
+            val intent = Intent(parent.context, ProductDetailsActivity::class.java)
+
+            intent.putExtra("image", items.toList()[holderr.absoluteAdapterPosition].image)
+            intent.putExtra("name", items.toList()[holderr.absoluteAdapterPosition].name)
+            intent.putExtra("price", items.toList()[holderr.absoluteAdapterPosition].price.toString())
+
+            parent.context.startActivity(intent)
+        }
+        return holderr
     }
 
     public fun position(): Int {
